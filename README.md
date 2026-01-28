@@ -108,7 +108,9 @@ Logs are streamed to CloudWatch under the group /ecs/java-app.
 Retention: 7 days (configured in terraform/modules/logs).
 
 SUCCESS
-https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true
+```
+
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
 
 6. Troubleshooting
 Health Checks failing? Ensure the /health endpoint in Restapi.java returns a 200 OK and matches the ALB health check path.
