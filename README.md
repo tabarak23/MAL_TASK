@@ -71,18 +71,9 @@ Least Privilege: IAM roles are split between Task Execution (pulling images/logs
 
 Network Isolation: ECS tasks reside in private subnets. The Security Group only allows ingress from the ALB's Security Group on port 8080.
 
-3. Dockerization & New Relic
-We use a multi-stage build to keep the production image slim and secure.
 
-Stage 1 (Build): Uses Maven to compile the .jar.
 
-Stage 2 (Runtime): Uses jdk jammy (Alpine-based) and includes the New Relic Java Agent.
-
-User: Runs as a non-root user appuser for security.
-
-New Relic Integration: The agent is included in the ./newrelic folder and passed via the JAVA_OPTS environment variable in the ECS Task Definition: -javaagent:/usr/local/newrelic/newrelic.jar
-
-4. CI/CD Pipeline Flow
+3. CI/CD Pipeline Flow
 The GitHub Actions workflow (.github/workflows/deploy.yml) follows this logic:
 
 PR to Main: Triggers Maven tests and Docker build (no push).
@@ -97,66 +88,65 @@ Updates the ECS Task Definition and triggers a rolling deployment.
 
 Verifies health via the ALB endpoint.
 
-5. Monitoring & Observability setup
+4. Monitoring & Observability setup
 ```
 New Relic Setup
-1)Go to ```https://newrelic.com``` click on login
+4.1)Go to ```https://newrelic.com``` click on login
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-28-31.png)
 
-2)create free account 
+4.2)create free account 
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-28-48.png)
-3)Give a name 
+4.3)Give a name 
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-29-13.png)
-4)Select language and cloud infra
+4.4)Select language and cloud infra
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-29-38.png)
-5)Generate licsence key ====>>> click on your name in the left corner down
+4.5)Generate licsence key ====>>> click on your name in the left corner down
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-15.png)
 
-6)Click on your "Api keys"
+4.6)Click on your "Api keys"
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-27.png)
 
-7)Select first and Click on "Create a key" at top corner right
+4.7)Select first and Click on "Create a key" at top corner right
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-44.png)
 
-8)Give a name to your license 
+4.8)Give a name to your license 
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-02-06.png)
 
-9)Copy license and store in the secrets manager
+4.9)Copy license and store in the secrets manager
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-02-18.png)
 
-Creating Alerts 
-1)Click on Alerts and then ALert Conditions
+5)Creating Alerts 
+5.1)Click on Alerts and then ALert Conditions
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-20.png)
 
 
-2)Click on "New alert condition"
+5.2)Click on "New alert condition"
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-32.png)
 
 
-3)Select NRQL Write your own query
+5.3)Select NRQL Write your own query
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-41.png)
 
 
-4)Write query for cpu utilization,memory and latency etc
+5.4)Write query for cpu utilization,memory and latency etc
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-05-30.png)
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-05-46.png)
 
-```Logging
+6)```Logging
 Logs are streamed to CloudWatch under the group /ecs/java-app.
-```
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-06-47.png)
 Retention: 7 days (configured in terraform/modules/logs).
 
-SUCCESS
+7)SUCCESS
 
-1)![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
+7.1)![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
 
 waiting for approval for production
-2)![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-01-14.png)
+7.2)![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-01-14.png)
 Accesing through ALB dns
 
 
-3)Service runnig smoothly on ecs fargate
+7.3)Service runnig smoothly on ecs fargate
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-16-07.png)
 ![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-16-21.png)
 Troubleshooting
