@@ -98,19 +98,54 @@ Updates the ECS Task Definition and triggers a rolling deployment.
 Verifies health via the ALB endpoint.
 
 5. Monitoring & Observability setup
+```
 New Relic Setup
+1)Go to ```https://newrelic.com```
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-28-31.png)
+click on login
+2)create free account 
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-28-48.png)
+3)Give a name 
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-29-13.png)
+4)Select language and cloud infra
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2010-29-38.png)
+5)Generate licsence key
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-15.png)
+click on your name in the left corner down
+6)Click on your "Api keys"
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-27.png)
+7)Select first and Click on "Create a key" at top corner right
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-01-44.png)
+8)Give a name to your license 
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-02-06.png)
+9)Copy license and store in the secrets manager
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-02-18.png)
 
+Creating Alerts 
+1)Click on Alerts and then ALert Conditions
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-20.png)
+2)Click on "New alert condition"
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-32.png)
+3)Select NRQL Write your own query
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-04-41.png)
+4)Write query for cpu utilization,memory and latency etc
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-05-30.png)
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-05-46.png)
 
-
-Logging
+```Logging
 Logs are streamed to CloudWatch under the group /ecs/java-app.
-
+```
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2017-06-47.png)
 Retention: 7 days (configured in terraform/modules/logs).
 
 SUCCESS
-```
 
-![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
-
-6. Troubleshooting
+1)![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
+waiting for approval for production
+2)![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-01-14.png)
+Accesing through ALB dns
+3)Service runnig smoothly on ecs fargate
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-16-07.png)
+![image alt](https://github.com/tabarak23/MAL_TASK/blob/0104e65ac762381547dbbf99f135a87566b3215b/images/Screenshot%20from%202026-01-28%2009-16-21.png)
+Troubleshooting
 Health Checks failing? Ensure the /health endpoint in Restapi.java returns a 200 OK and matches the ALB health check path.
