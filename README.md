@@ -96,7 +96,6 @@ Pushes image to ECR.
 Updates the ECS Task Definition and triggers a rolling deployment.
 
 Verifies health via the ALB endpoint.
-<img width="1500" height="246" alt="Screenshot from 2026-01-28 09-00-14" src="https://github.com/user-attachments/assets/d5d2a9a7-3666-4922-b56e-eeafa66cfa10" />
 
 5. Monitoring & Observability setup
 New Relic Setup
@@ -109,6 +108,7 @@ Logs are streamed to CloudWatch under the group /ecs/java-app.
 Retention: 7 days (configured in terraform/modules/logs).
 
 SUCCESS
-![image alt](https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true)
+https://github.com/tabarak23/MAL_TASK/blob/main/images/Screenshot%20from%202026-01-28%2009-00-14.png?raw=true
+
 6. Troubleshooting
 Health Checks failing? Ensure the /health endpoint in Restapi.java returns a 200 OK and matches the ALB health check path.
