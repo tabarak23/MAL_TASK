@@ -1,4 +1,4 @@
-3. Dockerization & New Relic
+Dockerization & New Relic
 We use a multi-stage build to keep the production image slim and secure.
 
 Stage 1 (Build): Uses Maven to compile the .jar.
