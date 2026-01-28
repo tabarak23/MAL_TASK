@@ -98,13 +98,16 @@ module "ecs" {
   project_name           = var.project_name
   stage                  = var.stage
   aws_region             = var.aws_region
-  image                  = "PLACEHOLDER_IMAGE" # CI/CD updates this
+  image                  = var.image
   execution_role_arn     = module.iam.ecs_execution_role_arn
   task_role_arn          = module.iam.ecs_task_role_arn
   log_group_name         = module.logs.log_group_name
   target_group_arn       = module.alb.target_group_arn
   private_subnet_ids     = module.vpc.private_subnet_ids
-  ecs_security_group_id  = aws_security_group.ecs.id
+  vpc_id                 = module.vpc.vpc_id
+  alb_security_group_id  = aws_security_group.alb.id
+  newrelic_secret_arn    = var.newrelic_secret_arn
+
 }
 
 # =========================
@@ -118,4 +121,20 @@ module "autoscaling" {
   stage        = var.stage
   cluster_name = module.ecs.cluster_name
   service_name = module.ecs.service_name
+}
+
+
+# =========================
+# ECR
+# =========================
+
+module "ecr" {
+  source = "../../terraform/modules/ecr"
+
+  repository_name = "${var.project_name}-${var.stage}"
+  common_tags = {
+    Project     = var.project_name
+    Environment = var.stage
+    ManagedBy   = "Terraform"
+  }
 }
